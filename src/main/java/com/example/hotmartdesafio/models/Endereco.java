@@ -15,7 +15,7 @@ import javax.persistence.Id;
 public class Endereco {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String pais;
     private String cidade;
     private String uf;
