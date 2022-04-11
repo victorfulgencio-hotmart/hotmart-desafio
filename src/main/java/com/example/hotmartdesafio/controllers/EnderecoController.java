@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @RestController
-@RequestMapping({"/endereco"})
+@RequestMapping({"/enderecos"})
 public class EnderecoController {
+
     private EnderecoRepository enderecoRepository;
     private EnderecoService enderecoService;
 
