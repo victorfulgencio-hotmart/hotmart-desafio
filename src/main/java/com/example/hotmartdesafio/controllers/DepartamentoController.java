@@ -1,6 +1,7 @@
 package com.example.hotmartdesafio.controllers;
 
 import com.example.hotmartdesafio.models.Departamento;
+import com.example.hotmartdesafio.models.Projeto;
 import com.example.hotmartdesafio.repositories.DepartamentoRepository;
 import com.example.hotmartdesafio.services.DepartamentoService;
 import org.springframework.http.ResponseEntity;
@@ -47,5 +48,10 @@ public class DepartamentoController {
                     departamentoRepository.deleteById(id);
                     return ResponseEntity.ok().build();
                 }).orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/{departamentoId}/projetos")
+    public Projeto addProjeto(@PathVariable("departamentoId") long departamentoId, @RequestBody Projeto projeto) {
+        return departamentoService.addProjeto(departamentoId, projeto);
     }
 }

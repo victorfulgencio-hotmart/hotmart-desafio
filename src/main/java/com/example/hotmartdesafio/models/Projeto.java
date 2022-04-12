@@ -6,20 +6,14 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Entity
-public class Departamento implements Serializable {
+public class Projeto implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
-    private Integer numero;
-
-    @OneToMany
-    @JoinColumn(name = "idDepartamento")
-    private Set<Projeto> projetos;
 }
