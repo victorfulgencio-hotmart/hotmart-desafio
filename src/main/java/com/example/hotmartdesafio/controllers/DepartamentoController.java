@@ -14,8 +14,8 @@ import java.util.NoSuchElementException;
 @RequestMapping({"/departamentos"})
 public class DepartamentoController {
 
-    private DepartamentoRepository departamentoRepository;
-    private DepartamentoService departamentoService;
+    private final DepartamentoRepository departamentoRepository;
+    private final DepartamentoService departamentoService;
 
     public DepartamentoController(DepartamentoRepository departamentoRepository, DepartamentoService departamentoService) {
         this.departamentoRepository = departamentoRepository;
