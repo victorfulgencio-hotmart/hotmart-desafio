@@ -21,6 +21,7 @@ public class Funcionario {
         this.dataNascimento = funcionarioDto.getDataNascimento();
         this.sexo = funcionarioDto.getSexo();
         this.nome = funcionarioDto.getNome();
+        this.salario = funcionarioDto.getSalario();
     }
 
     @Id
@@ -33,7 +34,7 @@ public class Funcionario {
     private Double salario;
 
     @ManyToOne()
-    @JoinColumn(name = "idEndereco", insertable = false, updatable = false)
+    @JoinColumn(name = "idEndereco")
     private Endereco endereco;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {

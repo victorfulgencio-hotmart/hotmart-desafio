@@ -2,24 +2,31 @@ package com.example.hotmartdesafio.services;
 
 import com.example.hotmartdesafio.dtos.FuncionarioDto;
 import com.example.hotmartdesafio.models.Funcionario;
+import com.example.hotmartdesafio.models.Projeto;
+import com.example.hotmartdesafio.repositories.EnderecoRepository;
 import com.example.hotmartdesafio.repositories.FuncionarioRepository;
+import com.example.hotmartdesafio.repositories.ProjetoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 public class FuncionarioService {
     private final FuncionarioRepository funcionarioRepository;
+    private final ProjetoRepository projetoRepository;
+    private final EnderecoRepository enderecoRepository;
 
-    public FuncionarioService(FuncionarioRepository funcionarioRepository) {
+    public FuncionarioService(FuncionarioRepository funcionarioRepository, ProjetoRepository projetoRepository, EnderecoRepository enderecoRepository) {
         this.funcionarioRepository = funcionarioRepository;
+        this.projetoRepository = projetoRepository;
+        this.enderecoRepository = enderecoRepository;
     }
 
     public Funcionario addFuncionario(FuncionarioDto funcionarioDto) {
         var funcionario = new Funcionario(funcionarioDto);
         addSupervisor(funcionarioDto, funcionario);
+        addEndereco(funcionarioDto, funcionario);
         return funcionarioRepository.save(funcionario);
     }
 
@@ -30,6 +37,13 @@ public class FuncionarioService {
         }
     }
 
+    public void addEndereco(FuncionarioDto funcionarioDto, Funcionario funcionario) {
+        if(funcionarioDto.getEndereco() != null) {
+            var endereco= enderecoRepository.findById(funcionarioDto.getEndereco()).orElseThrow(NoSuchElementException::new);
+            funcionario.setEndereco(endereco);
+        }
+    }
+
     public Funcionario updateFuncionario(long id, FuncionarioDto funcionarioDto) {
         var current = funcionarioRepository.findById(id).orElseThrow(NoSuchElementException::new);
         current.setNome(funcionarioDto.getNome() != null ? funcionarioDto.getNome() : current.getNome());
@@ -37,13 +51,18 @@ public class FuncionarioService {
         current.setDataNascimento(funcionarioDto.getDataNascimento() != null ? funcionarioDto.getDataNascimento() : current.getDataNascimento());
         current.setSexo(funcionarioDto.getSexo() != null ? funcionarioDto.getSexo() : current.getSexo());
         addSupervisor(funcionarioDto, current);
+        addEndereco(funcionarioDto, current);
         return funcionarioRepository.save(current);
     }
 
     public List<Funcionario> getFuncionarios(String nome) {
-        if(nome.isEmpty())
+        if(nome == null || nome.isEmpty())
             return (List)funcionarioRepository.findAll();
         else
             return funcionarioRepository.findByNome(String.valueOf(nome));
+    }
+
+    public List<Projeto> getProjetos(Long id) {
+        return projetoRepository.findProjetosByFuncionarioId(id);
     }
 }

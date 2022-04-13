@@ -53,8 +53,8 @@ public class FuncionarioController {
         return funcionarioService.updateFuncionario(id, funcionarioDto);
     }
 
-//    @GetMapping()
-//    public List getFuncionariosByName() {
-//        return funcionarioService.getFuncionarioByName(nome);
-//    }
+    @GetMapping("/{id}/projetos")
+    public List getProjetos(@PathVariable("id") long id) {
+        return funcionarioService.getProjetos(id);
+    }
 }

@@ -9,6 +9,8 @@ public class FuncionarioDto {
     private String nome;
     private String cpf;
     private String sexo;
+    private Double salario;
     private Date dataNascimento;
     private Long supervisor;
+    private Long endereco;
 }
