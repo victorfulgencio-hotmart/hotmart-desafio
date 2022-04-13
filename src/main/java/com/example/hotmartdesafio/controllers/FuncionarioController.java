@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @RestController
 @RequestMapping({"/funcionarios"})
@@ -23,7 +24,9 @@ public class FuncionarioController {
     }
 
     @GetMapping
-    public List findAll() { return (List)funcionarioRepository.findAll(); }
+    public List findAll(@RequestParam(name="nome", required = false) String nome) {
+        return funcionarioService.getFuncionarios(nome);
+    }
 
     @GetMapping(value="/{id}")
     public Funcionario find(@PathVariable("id") long id) {
@@ -49,4 +52,9 @@ public class FuncionarioController {
     public Funcionario update(@PathVariable("id") long id, @RequestBody FuncionarioDto funcionarioDto) {
         return funcionarioService.updateFuncionario(id, funcionarioDto);
     }
+
+//    @GetMapping()
+//    public List getFuncionariosByName() {
+//        return funcionarioService.getFuncionarioByName(nome);
+//    }
 }

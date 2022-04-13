@@ -1,12 +1,13 @@
 package com.example.hotmartdesafio.services;
 
 import com.example.hotmartdesafio.dtos.FuncionarioDto;
-import com.example.hotmartdesafio.models.Departamento;
 import com.example.hotmartdesafio.models.Funcionario;
 import com.example.hotmartdesafio.repositories.FuncionarioRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class FuncionarioService {
@@ -37,5 +38,12 @@ public class FuncionarioService {
         current.setSexo(funcionarioDto.getSexo() != null ? funcionarioDto.getSexo() : current.getSexo());
         addSupervisor(funcionarioDto, current);
         return funcionarioRepository.save(current);
+    }
+
+    public List<Funcionario> getFuncionarios(String nome) {
+        if(nome.isEmpty())
+            return (List)funcionarioRepository.findAll();
+        else
+            return funcionarioRepository.findByNome(String.valueOf(nome));
     }
 }
