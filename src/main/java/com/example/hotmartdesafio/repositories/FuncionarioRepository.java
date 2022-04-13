@@ -16,4 +16,7 @@ public interface FuncionarioRepository extends CrudRepository<Funcionario, Long>
 
     @Query(value = "SELECT * FROM funcionario WHERE nome LIKE %:nome%", nativeQuery = true)
     List<Funcionario> findByNome(String nome);
+
+    @Query(value = "SELECT * FROM funcionario WHERE supervisor_id=?1", nativeQuery = true)
+    List<Funcionario> findFuncionariosBySupervisor(Long supervisorId);
 }

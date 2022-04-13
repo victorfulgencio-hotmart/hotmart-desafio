@@ -57,4 +57,9 @@ public class FuncionarioController {
     public List getProjetos(@PathVariable("id") long id) {
         return funcionarioService.getProjetos(id);
     }
+
+    @GetMapping("/supervisor/{id}")
+    public List getFuncionariosBySupervisor(@PathVariable("id") long id) {
+        return funcionarioService.getFuncionariosBySupervisor(id);
+    }
 }

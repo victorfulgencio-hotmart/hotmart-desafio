@@ -44,7 +44,7 @@ public class FuncionarioService {
         }
     }
 
-    public Funcionario updateFuncionario(long id, FuncionarioDto funcionarioDto) {
+    public Funcionario updateFuncionario(Long id, FuncionarioDto funcionarioDto) {
         var current = funcionarioRepository.findById(id).orElseThrow(NoSuchElementException::new);
         current.setNome(funcionarioDto.getNome() != null ? funcionarioDto.getNome() : current.getNome());
         current.setCpf(funcionarioDto.getCpf() != null ? funcionarioDto.getCpf() : current.getCpf());
@@ -64,5 +64,9 @@ public class FuncionarioService {
 
     public List<Projeto> getProjetos(Long id) {
         return projetoRepository.findProjetosByFuncionarioId(id);
+    }
+
+    public List getFuncionariosBySupervisor(Long id) {
+        return funcionarioRepository.findFuncionariosBySupervisor(id);
     }
 }
