@@ -1,6 +1,7 @@
 package com.example.hotmartdesafio.models;
 
 import com.example.hotmartdesafio.dtos.FuncionarioDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,12 +30,20 @@ public class Funcionario {
     private String cpf;
     private String sexo;
     private Date dataNascimento;
+    private Double salario;
 
     @ManyToOne()
     @JoinColumn(name = "idEndereco", insertable = false, updatable = false)
     private Endereco endereco;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {
+                CascadeType.PERSIST,
+                CascadeType.MERGE
+            })
+    @JoinTable(
+            name = "funcionario_projetos",
+            joinColumns = @JoinColumn(name = "funcionario_id"),
+            inverseJoinColumns = @JoinColumn(name = "projeto_id"))
     private Set<Projeto> projetos;
 
     @ManyToOne

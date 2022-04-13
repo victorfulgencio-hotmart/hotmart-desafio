@@ -1,6 +1,7 @@
 package com.example.hotmartdesafio.controllers;
 
 import com.example.hotmartdesafio.models.Departamento;
+import com.example.hotmartdesafio.models.Funcionario;
 import com.example.hotmartdesafio.models.Projeto;
 import com.example.hotmartdesafio.repositories.DepartamentoRepository;
 import com.example.hotmartdesafio.services.DepartamentoService;
@@ -50,8 +51,17 @@ public class DepartamentoController {
                 }).orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/{departamentoId}/projetos")
-    public Projeto addProjeto(@PathVariable("departamentoId") long departamentoId, @RequestBody Projeto projeto) {
+    @PostMapping("/{id}/projetos")
+    public Projeto addProjeto(@PathVariable("id") long departamentoId, @RequestBody Projeto projeto) {
         return departamentoService.addProjeto(departamentoId, projeto);
+    }
+
+    /*
+    * Atividade 2: Funcionario e Departamento nao estao associadas no diagrama UML
+    * entao vou considerar pegar os funcionarios cujos projetos estao associados aquele departamento
+    */
+    @GetMapping("/{id}/funcionarios")
+    public List getFuncionariosFromDepartamento(@PathVariable("id") long departamentoId) {
+        return departamentoService.getFuncionariosFromDepartamento(departamentoId);
     }
 }
