@@ -1,5 +1,7 @@
 package com.example.hotmartdesafio.services;
 
+import com.example.hotmartdesafio.dtos.DepartamentoStatusDto;
+import com.example.hotmartdesafio.dtos.StatusEnum;
 import com.example.hotmartdesafio.models.Departamento;
 import com.example.hotmartdesafio.models.Funcionario;
 import com.example.hotmartdesafio.models.Projeto;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 @Service
 public class DepartamentoService {
@@ -24,7 +27,7 @@ public class DepartamentoService {
         this.funcionarioRepository = funcionarioRepository;
     }
 
-    public Departamento updateDepartamento(long id, Departamento departamento) {
+    public Departamento updateDepartamento(Long id, Departamento departamento) {
         var currentDepartamento = departamentoRepository.findById(id).orElseThrow(NoSuchElementException::new);
         currentDepartamento.setNome(departamento.getNome() != null ? departamento.getNome() : currentDepartamento.getNome());
         currentDepartamento.setNumero(departamento.getNumero() != null ? departamento.getNumero() : currentDepartamento.getNumero());
@@ -50,5 +53,25 @@ public class DepartamentoService {
         }
 
         return allFuncionarios;
+    }
+
+    public DepartamentoStatusDto getStatus(Long id) {
+        var departamento = departamentoRepository.findById(id).orElseThrow(NoSuchElementException::new);
+        var projetos = departamento.getProjetos();
+        if(projetos == null)
+            return new DepartamentoStatusDto(StatusEnum.VERDE);
+
+        double totalCost = 0;
+        for (Projeto proj: projetos)
+            totalCost += proj.getCusto() == null ? 0 : proj.getCusto();
+
+        var funcionariosFromDepartamento = getFuncionariosFromDepartamento(id);
+        if(funcionariosFromDepartamento != null) {
+            funcionariosFromDepartamento.removeIf(Objects::isNull);
+            for (Funcionario func: funcionariosFromDepartamento)
+                totalCost += func.getSalario() == null ? 0 : func.getSalario();
+        }
+
+        return new DepartamentoStatusDto(totalCost, departamento.getNumero());
     }
 }

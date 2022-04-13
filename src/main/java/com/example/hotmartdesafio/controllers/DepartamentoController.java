@@ -1,5 +1,6 @@
 package com.example.hotmartdesafio.controllers;
 
+import com.example.hotmartdesafio.dtos.DepartamentoStatusDto;
 import com.example.hotmartdesafio.models.Departamento;
 import com.example.hotmartdesafio.models.Funcionario;
 import com.example.hotmartdesafio.models.Projeto;
@@ -63,5 +64,10 @@ public class DepartamentoController {
     @GetMapping("/{id}/funcionarios")
     public List getFuncionariosFromDepartamento(@PathVariable("id") long departamentoId) {
         return departamentoService.getFuncionariosFromDepartamento(departamentoId);
+    }
+
+    @GetMapping("/{id}/status")
+    public DepartamentoStatusDto getStatus(@PathVariable("id") long id) {
+        return departamentoService.getStatus(id);
     }
 }

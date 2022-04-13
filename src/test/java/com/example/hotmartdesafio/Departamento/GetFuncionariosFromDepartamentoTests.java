@@ -1,4 +1,4 @@
-package com.example.hotmartdesafio;
+package com.example.hotmartdesafio.Departamento;
 
 import com.example.hotmartdesafio.models.Departamento;
 import com.example.hotmartdesafio.models.Funcionario;
@@ -34,7 +34,7 @@ public class GetFuncionariosFromDepartamentoTests {
     }
 
     @Test
-    void ReturnNullWhenDepartmentHasNoProjects() {
+    void returnNullWhenDepartmentHasNoProjects() {
         // Arrange
         var departamentoId = 1L;
         when(departamentoRepository.findById(departamentoId)).thenReturn(Optional.of(new Departamento()));
@@ -47,7 +47,7 @@ public class GetFuncionariosFromDepartamentoTests {
     }
 
     @Test
-    void ReturnFuncionarioHappyPath() {
+    void returnFuncionarioHappyPath() {
         // Arrange
         var projetoId = 1L;
         var departamentoId = 1L;
