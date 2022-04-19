@@ -1,8 +1,9 @@
 package com.example.hotmartdesafio.controllers;
 
 import com.example.hotmartdesafio.dtos.FuncionarioDto;
-import com.example.hotmartdesafio.models.Departamento;
+import com.example.hotmartdesafio.models.Endereco;
 import com.example.hotmartdesafio.models.Funcionario;
+import com.example.hotmartdesafio.repositories.EnderecoRepository;
 import com.example.hotmartdesafio.repositories.FuncionarioRepository;
 import com.example.hotmartdesafio.services.FuncionarioService;
 import org.springframework.http.ResponseEntity;
@@ -10,17 +11,18 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @RestController
 @RequestMapping({"/funcionarios"})
 public class FuncionarioController {
     private final FuncionarioRepository funcionarioRepository;
     private final FuncionarioService funcionarioService;
+    private final EnderecoRepository enderecoRepository;
 
-    public FuncionarioController(FuncionarioRepository funcionarioRepository, FuncionarioService funcionarioService) {
+    public FuncionarioController(FuncionarioRepository funcionarioRepository, FuncionarioService funcionarioService, EnderecoRepository enderecoRepository) {
         this.funcionarioRepository = funcionarioRepository;
         this.funcionarioService = funcionarioService;
+        this.enderecoRepository = enderecoRepository;
     }
 
     @GetMapping
@@ -61,5 +63,13 @@ public class FuncionarioController {
     @GetMapping("/supervisor/{id}")
     public List getFuncionariosBySupervisor(@PathVariable("id") long id) {
         return funcionarioService.getFuncionariosBySupervisor(id);
+    }
+
+    @PostMapping("/{id}/endereco")
+    public Funcionario createEndereco(@PathVariable("id") long id, @RequestBody Endereco endereco) {
+        var savedEndereco = enderecoRepository.save(endereco);
+        var funcionario = funcionarioRepository.findById(id).orElseThrow(NoSuchElementException::new);
+        funcionario.setEndereco(savedEndereco);
+        return funcionarioRepository.save(funcionario);
     }
 }

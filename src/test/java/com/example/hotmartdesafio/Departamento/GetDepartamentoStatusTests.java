@@ -43,6 +43,7 @@ public class GetDepartamentoStatusTests {
 
         // Assert
         Assert.isTrue(result.getStatus() == StatusEnum.VERDE, "Custo é nulo");
+        Assert.isTrue(result.getCustoTotal() == 0, "0 é o valor default para o custo");
     }
 
     @Test

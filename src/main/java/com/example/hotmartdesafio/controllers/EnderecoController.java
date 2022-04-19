@@ -30,11 +30,6 @@ public class EnderecoController {
                 .orElseThrow(NoSuchElementException::new);
     }
 
-    @PostMapping
-    public Endereco createEndereco(@RequestBody Endereco endereco) {
-        return enderecoRepository.save(endereco);
-    }
-
     @PutMapping(value="/{id}")
     public Endereco updateEndereco(@PathVariable("id") long id, @RequestBody Endereco endereco) {
         return enderecoService.updateEndereco(id, endereco);
