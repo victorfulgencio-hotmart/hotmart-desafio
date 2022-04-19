@@ -7,9 +7,6 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface ProjetoRepository extends CrudRepository<Projeto, Long> {
-    @Query(value =
-            "SELECT p.id, p.nome, p.custo FROM funcionario_projetos fp\n" +
-                    "LEFT JOIN projeto p ON fp.funcionario_id=?1 AND p.id=fp.projeto_id",
-            nativeQuery = true)
+    @Query(value = "SELECT p FROM Funcionario f JOIN f.projetos p WHERE f.id=?1")
     List<Projeto> findProjetosByFuncionarioId(Long id);
 }

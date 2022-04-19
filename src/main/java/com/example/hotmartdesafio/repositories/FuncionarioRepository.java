@@ -1,22 +1,18 @@
 package com.example.hotmartdesafio.repositories;
 
 import com.example.hotmartdesafio.models.Funcionario;
-import com.example.hotmartdesafio.models.Projeto;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
 public interface FuncionarioRepository extends CrudRepository<Funcionario, Long> {
-    @Query(value =
-                "SELECT * FROM funcionario_projetos fp\n" +
-                "LEFT JOIN funcionario f ON fp.projeto_id=?1 AND f.id=fp.funcionario_id",
-            nativeQuery = true)
+    @Query(value = "SELECT f FROM Funcionario f JOIN f.projetos p WHERE p.id=?1")
     List<Funcionario> findFuncionariosByProjetoId(Long projetoId);
 
-    @Query(value = "SELECT * FROM funcionario WHERE nome LIKE %:nome%", nativeQuery = true)
+    @Query(value = "SELECT f FROM Funcionario f WHERE f.nome LIKE %:nome%")
     List<Funcionario> findByNome(String nome);
 
-    @Query(value = "SELECT * FROM funcionario WHERE supervisor_id=?1", nativeQuery = true)
+    @Query(value = "SELECT f FROM Funcionario f WHERE f.supervisor.id=?1")
     List<Funcionario> findFuncionariosBySupervisor(Long supervisorId);
 }
