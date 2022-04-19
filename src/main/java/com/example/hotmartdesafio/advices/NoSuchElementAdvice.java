@@ -1,5 +1,6 @@
-package com.example.hotmartdesafio;
+package com.example.hotmartdesafio.advices;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,7 +14,11 @@ public class NoSuchElementAdvice {
     @ResponseBody
     @ExceptionHandler(NoSuchElementException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    String employeeNotFoundHandler(NoSuchElementException ex) {
-        return ex.getMessage();
+    ErrorModel notFoundHandler(NoSuchElementException ex) {
+        return new ErrorModel(
+                ex.getMessage(),
+                "element not found error",
+                HttpStatus.NOT_FOUND.toString()
+        );
     }
 }
