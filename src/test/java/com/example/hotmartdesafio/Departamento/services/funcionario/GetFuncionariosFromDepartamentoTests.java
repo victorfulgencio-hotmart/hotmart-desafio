@@ -1,4 +1,4 @@
-package com.example.hotmartdesafio.Departamento;
+package com.example.hotmartdesafio.Departamento.services.funcionario;
 
 import com.example.hotmartdesafio.models.Departamento;
 import com.example.hotmartdesafio.models.Funcionario;
