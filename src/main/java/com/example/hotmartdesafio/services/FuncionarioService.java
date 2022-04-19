@@ -48,6 +48,7 @@ public class FuncionarioService {
         var current = funcionarioRepository.findById(id).orElseThrow(NoSuchElementException::new);
         current.setNome(funcionarioDto.getNome() != null ? funcionarioDto.getNome() : current.getNome());
         current.setCpf(funcionarioDto.getCpf() != null ? funcionarioDto.getCpf() : current.getCpf());
+        current.setSalario(funcionarioDto.getSalario() != null ? funcionarioDto.getSalario() : current.getSalario());
         current.setDataNascimento(funcionarioDto.getDataNascimento() != null ? funcionarioDto.getDataNascimento() : current.getDataNascimento());
         current.setSexo(funcionarioDto.getSexo() != null ? funcionarioDto.getSexo() : current.getSexo());
         addSupervisor(funcionarioDto, current);

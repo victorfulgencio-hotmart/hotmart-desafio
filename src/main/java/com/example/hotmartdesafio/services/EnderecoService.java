@@ -11,7 +11,7 @@ public class EnderecoService {
 
     private EnderecoRepository enderecoRepository;
 
-    EnderecoService(EnderecoRepository enderecoRepository) {
+    public EnderecoService(EnderecoRepository enderecoRepository) {
         this.enderecoRepository = enderecoRepository;
     }
 

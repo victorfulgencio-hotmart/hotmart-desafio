@@ -10,13 +10,14 @@ import java.util.NoSuchElementException;
 public class ProjetoService {
     private ProjetoRepository projetoRepository;
 
-    ProjetoService(ProjetoRepository repository) {
+    public ProjetoService(ProjetoRepository repository) {
         projetoRepository = repository;
     }
 
-    public Projeto updateDepartamento(long id, Projeto projeto) {
+    public Projeto updateProjeto(long id, Projeto projeto) {
         var currentProjeto = projetoRepository.findById(id).orElseThrow(NoSuchElementException::new);
         currentProjeto.setNome(projeto.getNome() != null ? projeto.getNome() : currentProjeto.getNome());
+        currentProjeto.setCusto(projeto.getNome() != null ? projeto.getCusto() : currentProjeto.getCusto());
         return projetoRepository.save(currentProjeto);
     }
 }

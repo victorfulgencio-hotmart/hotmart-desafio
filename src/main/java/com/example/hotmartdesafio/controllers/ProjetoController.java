@@ -40,6 +40,6 @@ public class ProjetoController {
 
     @PutMapping("/{id}")
     public Projeto update(@PathVariable("id") long id, @RequestBody Projeto projeto) {
-        return projetoService.updateDepartamento(id, projeto);
+        return projetoService.updateProjeto(id, projeto);
     }
 }
