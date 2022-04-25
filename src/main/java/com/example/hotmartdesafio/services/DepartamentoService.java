@@ -1,8 +1,6 @@
 package com.example.hotmartdesafio.services;
 
-import com.example.hotmartdesafio.dtos.DepartamentoStatusDto;
-import com.example.hotmartdesafio.dtos.ProjetoDto;
-import com.example.hotmartdesafio.dtos.StatusEnum;
+import com.example.hotmartdesafio.dtos.*;
 import com.example.hotmartdesafio.models.Departamento;
 import com.example.hotmartdesafio.models.Funcionario;
 import com.example.hotmartdesafio.models.Projeto;
@@ -15,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class DepartamentoService {
@@ -28,11 +27,11 @@ public class DepartamentoService {
         this.funcionarioRepository = funcionarioRepository;
     }
 
-    public Departamento updateDepartamento(Long id, Departamento departamento) {
+    public DepartamentoDto updateDepartamento(Long id, Departamento departamento) {
         var currentDepartamento = departamentoRepository.findById(id).orElseThrow(NoSuchElementException::new);
         currentDepartamento.setNome(departamento.getNome() != null ? departamento.getNome() : currentDepartamento.getNome());
         currentDepartamento.setNumero(departamento.getNumero() != null ? departamento.getNumero() : currentDepartamento.getNumero());
-        return departamentoRepository.save(currentDepartamento);
+        return new DepartamentoDto(departamentoRepository.save(currentDepartamento));
     }
 
     public ProjetoDto addProjeto(long id, Projeto projeto) {
@@ -41,7 +40,7 @@ public class DepartamentoService {
         return new ProjetoDto(projetoRepository.save(projeto));
     }
 
-    public List<Funcionario> getFuncionariosFromDepartamento(Long departamentoId) {
+    public List<FuncionarioOutputDto> getFuncionariosFromDepartamento(Long departamentoId) {
         var departamento = departamentoRepository.findById(departamentoId).orElseThrow(NoSuchElementException::new);
 
         List<Funcionario> allFuncionarios = new ArrayList();
@@ -53,7 +52,7 @@ public class DepartamentoService {
             allFuncionarios.addAll(funcionarios);
         }
 
-        return allFuncionarios;
+        return allFuncionarios.stream().map(FuncionarioOutputDto::new).collect(Collectors.toList());
     }
 
     public DepartamentoStatusDto getStatus(Long id) {
@@ -69,7 +68,7 @@ public class DepartamentoService {
         var funcionariosFromDepartamento = getFuncionariosFromDepartamento(id);
         if(funcionariosFromDepartamento != null) {
             funcionariosFromDepartamento.removeIf(Objects::isNull);
-            for (Funcionario func: funcionariosFromDepartamento)
+            for (FuncionarioOutputDto func: funcionariosFromDepartamento)
                 totalCost += func.getSalario() == null ? 0 : func.getSalario();
         }
 

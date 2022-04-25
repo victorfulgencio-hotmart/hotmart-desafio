@@ -1,5 +1,6 @@
 package com.example.hotmartdesafio.controllers;
 
+import com.example.hotmartdesafio.dtos.DepartamentoDto;
 import com.example.hotmartdesafio.dtos.DepartamentoStatusDto;
 import com.example.hotmartdesafio.dtos.ProjetoDto;
 import com.example.hotmartdesafio.models.Departamento;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping({"/departamentos"})
@@ -26,21 +28,25 @@ public class DepartamentoController {
     }
 
     @GetMapping
-    public List findAll() { return (List)departamentoRepository.findAll(); }
+    public List<DepartamentoDto> findAll() {
+        return ((List<Departamento>) departamentoRepository.findAll())
+                .stream().map(DepartamentoDto::new)
+                .collect(Collectors.toList());
+    }
 
     @GetMapping(value="/{id}")
-    public Departamento find(@PathVariable("id") long id) {
-        return departamentoRepository.findById(id)
-                .orElseThrow(NoSuchElementException::new);
+    public DepartamentoDto find(@PathVariable("id") long id) {
+        return new DepartamentoDto(departamentoRepository.findById(id)
+                .orElseThrow(NoSuchElementException::new));
     }
 
     @PostMapping
-    public Departamento create(@RequestBody Departamento departamento) {
-        return departamentoRepository.save(departamento);
+    public DepartamentoDto create(@RequestBody Departamento departamento) {
+        return new DepartamentoDto(departamentoRepository.save(departamento));
     }
 
     @PutMapping("/{id}")
-    public Departamento update(@PathVariable("id") long id, @RequestBody Departamento departamento) {
+    public DepartamentoDto update(@PathVariable("id") long id, @RequestBody Departamento departamento) {
         return departamentoService.updateDepartamento(id, departamento);
     }
 

@@ -17,9 +17,6 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-/// TODO: usar validation nos DTOS ao inves das Entities
-/// TODO: Revisar documento do Rui e anotar duvidas
-
 @RestController
 @RequestMapping({"/funcionarios"})
 public class FuncionarioController {
