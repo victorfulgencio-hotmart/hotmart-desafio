@@ -1,6 +1,8 @@
 package com.example.hotmartdesafio.services;
 
-import com.example.hotmartdesafio.dtos.FuncionarioDto;
+import com.example.hotmartdesafio.dtos.FuncionarioInputDto;
+import com.example.hotmartdesafio.dtos.FuncionarioOutputDto;
+import com.example.hotmartdesafio.dtos.ProjetoDto;
 import com.example.hotmartdesafio.models.Funcionario;
 import com.example.hotmartdesafio.models.Projeto;
 import com.example.hotmartdesafio.repositories.EnderecoRepository;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 public class FuncionarioService {
@@ -23,28 +26,29 @@ public class FuncionarioService {
         this.enderecoRepository = enderecoRepository;
     }
 
-    public Funcionario addFuncionario(FuncionarioDto funcionarioDto) {
+    public FuncionarioOutputDto addFuncionario(FuncionarioInputDto funcionarioDto) {
         var funcionario = new Funcionario(funcionarioDto);
         addSupervisor(funcionarioDto, funcionario);
         addEndereco(funcionarioDto, funcionario);
-        return funcionarioRepository.save(funcionario);
+        var result = funcionarioRepository.save(funcionario);
+        return new FuncionarioOutputDto(result);
     }
 
-    public void addSupervisor(FuncionarioDto funcionarioDto, Funcionario funcionario) {
+    public void addSupervisor(FuncionarioInputDto funcionarioDto, Funcionario funcionario) {
         if(funcionarioDto.getSupervisor() != null) {
             var supervisor= funcionarioRepository.findById(funcionarioDto.getSupervisor()).orElseThrow(NoSuchElementException::new);
             funcionario.setSupervisor(supervisor);
         }
     }
 
-    public void addEndereco(FuncionarioDto funcionarioDto, Funcionario funcionario) {
+    public void addEndereco(FuncionarioInputDto funcionarioDto, Funcionario funcionario) {
         if(funcionarioDto.getEndereco() != null) {
             var endereco= enderecoRepository.findById(funcionarioDto.getEndereco()).orElseThrow(NoSuchElementException::new);
             funcionario.setEndereco(endereco);
         }
     }
 
-    public Funcionario updateFuncionario(Long id, FuncionarioDto funcionarioDto) {
+    public FuncionarioOutputDto updateFuncionario(Long id, FuncionarioInputDto funcionarioDto) {
         var current = funcionarioRepository.findById(id).orElseThrow(NoSuchElementException::new);
         current.setNome(funcionarioDto.getNome() != null ? funcionarioDto.getNome() : current.getNome());
         current.setCpf(funcionarioDto.getCpf() != null ? funcionarioDto.getCpf() : current.getCpf());
@@ -53,21 +57,29 @@ public class FuncionarioService {
         current.setSexo(funcionarioDto.getSexo() != null ? funcionarioDto.getSexo() : current.getSexo());
         addSupervisor(funcionarioDto, current);
         addEndereco(funcionarioDto, current);
-        return funcionarioRepository.save(current);
+        var result = funcionarioRepository.save(current);
+        return new FuncionarioOutputDto(result);
     }
 
-    public List<Funcionario> getFuncionarios(String nome) {
+    public List<FuncionarioOutputDto> getFuncionarios(String nome) {
+        List<Funcionario> result;
         if(nome == null || nome.isEmpty())
-            return (List)funcionarioRepository.findAll();
+            result = (List)funcionarioRepository.findAll();
         else
-            return funcionarioRepository.findByNome(String.valueOf(nome));
+            result = funcionarioRepository.findByNome(nome);
+        return result.stream().map(FuncionarioOutputDto::new).collect(Collectors.toList());
     }
 
-    public List<Projeto> getProjetos(Long id) {
-        return projetoRepository.findProjetosByFuncionarioId(id);
+    public List<ProjetoDto> getProjetos(Long id) {
+        return projetoRepository.findProjetosByFuncionarioId(id)
+                .stream().map(ProjetoDto::new)
+                .collect(Collectors.toList());
     }
 
-    public List getFuncionariosBySupervisor(Long id) {
-        return funcionarioRepository.findFuncionariosBySupervisor(id);
+    public List<FuncionarioOutputDto> getFuncionariosBySupervisor(Long id) {
+        return funcionarioRepository.findFuncionariosBySupervisor(id)
+                .stream()
+                .map(FuncionarioOutputDto::new)
+                .collect(Collectors.toList());
     }
 }

@@ -1,6 +1,6 @@
 package com.example.hotmartdesafio.Departamento.services.funcionario;
 
-import com.example.hotmartdesafio.dtos.FuncionarioDto;
+import com.example.hotmartdesafio.dtos.FuncionarioInputDto;
 import com.example.hotmartdesafio.models.Endereco;
 import com.example.hotmartdesafio.models.Funcionario;
 import com.example.hotmartdesafio.repositories.EnderecoRepository;
@@ -46,7 +46,7 @@ public class AddEnderecoTests {
     void addEnderecoWithoutAValidPayload_ExpectError() {
         // Arrange
         var funcionario = new Funcionario();
-        var payload = new FuncionarioDto(); // without an Endereco
+        var payload = new FuncionarioInputDto(); // without an Endereco
 
         // Act
         funcionarioService.addEndereco(payload, funcionario);
@@ -55,8 +55,8 @@ public class AddEnderecoTests {
         Assert.isNull(funcionario.getEndereco(), "Endereco é nulo, pois o payload não contém um Endereco válido");
     }
 
-    FuncionarioDto getSamplePayload() {
-        var payload = new FuncionarioDto();
+    FuncionarioInputDto getSamplePayload() {
+        var payload = new FuncionarioInputDto();
         payload.setEndereco(Mockito.anyLong());
         return payload;
     }

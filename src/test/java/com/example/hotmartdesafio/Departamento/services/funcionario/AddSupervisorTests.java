@@ -1,9 +1,7 @@
 package com.example.hotmartdesafio.Departamento.services.funcionario;
 
-import com.example.hotmartdesafio.dtos.FuncionarioDto;
-import com.example.hotmartdesafio.models.Endereco;
+import com.example.hotmartdesafio.dtos.FuncionarioInputDto;
 import com.example.hotmartdesafio.models.Funcionario;
-import com.example.hotmartdesafio.repositories.EnderecoRepository;
 import com.example.hotmartdesafio.repositories.FuncionarioRepository;
 import com.example.hotmartdesafio.services.FuncionarioService;
 import org.junit.jupiter.api.BeforeAll;
@@ -48,7 +46,7 @@ public class AddSupervisorTests {
     void addSupervisorWithoutAValidPayload_ExpectError() {
         // Arrange
         var funcionario = new Funcionario();
-        var payload = new FuncionarioDto(); // without a Supervisor
+        var payload = new FuncionarioInputDto(); // without a Supervisor
 
         // Act
         funcionarioService.addEndereco(payload, funcionario);
@@ -73,8 +71,8 @@ public class AddSupervisorTests {
         }
     }
 
-    FuncionarioDto getSamplePayload() {
-        var payload = new FuncionarioDto();
+    FuncionarioInputDto getSamplePayload() {
+        var payload = new FuncionarioInputDto();
         payload.setSupervisor(Mockito.anyLong());
         return payload;
     }

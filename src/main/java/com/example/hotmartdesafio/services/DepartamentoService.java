@@ -1,6 +1,7 @@
 package com.example.hotmartdesafio.services;
 
 import com.example.hotmartdesafio.dtos.DepartamentoStatusDto;
+import com.example.hotmartdesafio.dtos.ProjetoDto;
 import com.example.hotmartdesafio.dtos.StatusEnum;
 import com.example.hotmartdesafio.models.Departamento;
 import com.example.hotmartdesafio.models.Funcionario;
@@ -34,10 +35,10 @@ public class DepartamentoService {
         return departamentoRepository.save(currentDepartamento);
     }
 
-    public Projeto addProjeto(long id, Projeto projeto) {
+    public ProjetoDto addProjeto(long id, Projeto projeto) {
         var currentDepartamento = departamentoRepository.findById(id).orElseThrow(NoSuchElementException::new);
         currentDepartamento.getProjetos().add(projeto);
-        return projetoRepository.save(projeto);
+        return new ProjetoDto(projetoRepository.save(projeto));
     }
 
     public List<Funcionario> getFuncionariosFromDepartamento(Long departamentoId) {

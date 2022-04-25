@@ -1,14 +1,10 @@
 package com.example.hotmartdesafio.Departamento.services.departamento;
 
 import com.example.hotmartdesafio.models.Departamento;
-import com.example.hotmartdesafio.models.Endereco;
-import com.example.hotmartdesafio.models.Funcionario;
 import com.example.hotmartdesafio.models.Projeto;
 import com.example.hotmartdesafio.repositories.DepartamentoRepository;
-import com.example.hotmartdesafio.repositories.EnderecoRepository;
 import com.example.hotmartdesafio.repositories.ProjetoRepository;
 import com.example.hotmartdesafio.services.DepartamentoService;
-import com.example.hotmartdesafio.services.FuncionarioService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -16,9 +12,7 @@ import org.springframework.boot.test.context.TestComponent;
 import org.springframework.util.Assert;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.ArgumentMatchers.anyLong;

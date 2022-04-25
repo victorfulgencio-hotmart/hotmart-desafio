@@ -1,7 +1,6 @@
 package com.example.hotmartdesafio.models;
 
-import com.example.hotmartdesafio.dtos.FuncionarioDto;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.example.hotmartdesafio.dtos.FuncionarioInputDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +17,7 @@ import java.util.Set;
 @Entity
 public class Funcionario {
 
-    public Funcionario(FuncionarioDto funcionarioDto) {
+    public Funcionario(FuncionarioInputDto funcionarioDto) {
         this.cpf = funcionarioDto.getCpf();
         this.dataNascimento = funcionarioDto.getDataNascimento();
         this.sexo = funcionarioDto.getSexo();

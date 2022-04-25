@@ -1,6 +1,7 @@
 package com.example.hotmartdesafio.controllers;
 
 import com.example.hotmartdesafio.dtos.DepartamentoStatusDto;
+import com.example.hotmartdesafio.dtos.ProjetoDto;
 import com.example.hotmartdesafio.models.Departamento;
 import com.example.hotmartdesafio.models.Funcionario;
 import com.example.hotmartdesafio.models.Projeto;
@@ -53,7 +54,7 @@ public class DepartamentoController {
     }
 
     @PostMapping("/{id}/projetos")
-    public Projeto addProjeto(@PathVariable("id") long departamentoId, @RequestBody Projeto projeto) {
+    public ProjetoDto addProjeto(@PathVariable("id") long departamentoId, @RequestBody Projeto projeto) {
         return departamentoService.addProjeto(departamentoId, projeto);
     }
 

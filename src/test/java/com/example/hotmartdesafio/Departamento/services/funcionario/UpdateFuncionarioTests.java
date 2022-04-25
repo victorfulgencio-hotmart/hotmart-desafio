@@ -1,6 +1,6 @@
 package com.example.hotmartdesafio.Departamento.services.funcionario;
 
-import com.example.hotmartdesafio.dtos.FuncionarioDto;
+import com.example.hotmartdesafio.dtos.FuncionarioInputDto;
 import com.example.hotmartdesafio.models.Funcionario;
 import com.example.hotmartdesafio.repositories.FuncionarioRepository;
 import com.example.hotmartdesafio.services.FuncionarioService;
@@ -47,8 +47,8 @@ public class UpdateFuncionarioTests {
         Assert.isTrue(Objects.equals(result.getSexo(), payload.getSexo()), "Nome é igual ao payload");
     }
 
-    FuncionarioDto getSamplePayload() {
-        var payload = new FuncionarioDto();
+    FuncionarioInputDto getSamplePayload() {
+        var payload = new FuncionarioInputDto();
         payload.setSexo("F");
         payload.setDataNascimento(new Date());
         payload.setCpf("123.355.666.12");
